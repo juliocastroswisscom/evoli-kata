@@ -1,15 +1,26 @@
+import {CarrotType} from './CarrotType'
+
 type CreateCarrotParams = {
-  carrotness: number;
+    carrotness: number;
+    type: CarrotType;
 };
 
 export class Carrot {
-  private carrotness: number;
+    private carrotness: number;
+    private carrotType: CarrotType;
 
-  constructor(params: CreateCarrotParams) {
-    this.carrotness = params.carrotness;
-  }
+    constructor(params: CreateCarrotParams) {
+        this.carrotness = params.carrotness;
+        this.carrotType = params.type;
+    }
 
-  getCarrotness() {
-    return this.carrotness;
-  }
+    getCarrotness() {
+        return this.carrotness;
+    }
+
+    getCarrotType(){
+        return this.carrotType;
+    }
+
 }
+
