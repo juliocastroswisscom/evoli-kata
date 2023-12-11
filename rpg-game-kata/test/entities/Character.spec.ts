@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {Character} from "../../src/entities/Character.ts";
 import {DamageService} from "../../src/services/DamageService.ts";
+import {HealService} from "../../src/services/HealService.ts";
 
 describe('Character', () => {
     it('creates default character', () => {
@@ -26,7 +27,7 @@ describe('Character', () => {
         expect(defender.getHealth()).toEqual(900);
     });
 
-    it("kills a character", () => {
+    it('kills a character', () => {
         const attacker = new Character();
         const defender = new Character();
         const service = new DamageService();
@@ -34,5 +35,40 @@ describe('Character', () => {
         service.dealDamage(attacker, defender, 10_000);
 
         expect(defender.isAlive()).toEqual(false);
+    })
+
+    it('heals a character', () => {
+        const supporter = new Character();
+        const supportedCharacter = new Character();
+        const healService = new HealService();
+        const dmgService = new DamageService();
+
+        dmgService.dealDamage(supporter, supportedCharacter, 100)
+        healService.heal(supporter, supportedCharacter, 50);
+
+        expect(supportedCharacter.getHealth()).toEqual(950);
+    })
+
+    it('cannot heal a dead character', () => {
+        const supporter = new Character();
+        const supportedCharacter = new Character();
+        const healService = new HealService();
+        const dmgService = new DamageService();
+
+        dmgService.dealDamage(supporter, supportedCharacter, 10_000)
+        healService.heal(supporter, supportedCharacter, 50);
+
+        expect(supportedCharacter.getHealth()).toEqual(0);
+        expect(supportedCharacter.isAlive()).toBeFalsy();
+    })
+
+    it('cannot heal fully healed character', () => {
+        const supporter = new Character();
+        const supportedCharacter = new Character();
+        const healService = new HealService();
+
+        healService.heal(supporter, supportedCharacter, 50);
+
+        expect(supportedCharacter.getHealth()).toEqual(1000);
     })
 });

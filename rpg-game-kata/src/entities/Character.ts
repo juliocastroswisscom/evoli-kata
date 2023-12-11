@@ -25,6 +25,12 @@ export class Character{
 
     changeHealth(health: number) {
         this.health += health;
+        if (this.health <= 0){
+            this.health = 0;
+            this.alive = false;
+        }else if(this.health > 1000){
+            this.health = 1000;
+        }
     }
 
     isAlive() {
